@@ -26,9 +26,6 @@
 #
 
 on init
-    setprop sys.usb.controller a600000.dwc3
-    setprop sys.usb.configfs 1
-
     # unlink /efs > /mnt/vendor/efs
     rm /efs
     mkdir /efs
