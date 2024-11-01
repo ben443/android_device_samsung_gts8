@@ -1,2 +1,1 @@
-# android_device_samsung_gts8
-Kernel for Galaxy Tab S8
+# Recovery Device Tree for the Samsung Galaxy Tab S8 (Snapdragon)
