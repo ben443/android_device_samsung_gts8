@@ -18,7 +18,7 @@ jobs:
         swap-size-gb: 24
 
     - name: Build TWRP
-      uses: mlm-games/twrp-build-action@main
+      uses: mlm-games/TWRP-recovery-build-action@v1.1
       with:
         MANIFEST_BRANCH: 'twrp-12.1'
         DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
