@@ -12,13 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: 'Set Swap Space'
-        description: 'Add moar swap'
-        branding:
+      description: 'Add moar swap'
+      branding:
     icon: 'crop'
   color: 'orange'
 inputs:
   swap-size-gb:  26
-    description: 'Swap space to create, in Gigabytes.'
+    description: 'Swap space to create, in Gigabytes.' 
     required: false
     default: '10'
 runs:
