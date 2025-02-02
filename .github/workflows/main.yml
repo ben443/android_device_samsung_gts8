@@ -15,7 +15,7 @@ jobs:
     - name: Set Swap Space (Optional)
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 16
+        swap-size-gb: 24
 
     - name: Build TWRP
       uses: mlm-games/twrp-build-action@main
@@ -27,9 +27,17 @@ jobs:
         DEVICE_PATH: 'device/samsung/gts8'
         MAKEFILE_NAME: ''
         BUILD_TARGET: 'boot'
+        
+        - name: Upload Recovery Image
+  uses: actions/upload-artifact@v4
+  with:
+    name: TWRP-Recovery
+    path: ${{ env.OUTPUT_DIR }}/*.img
 
-    - name: Upload Recovery Image
-      uses: actions/upload-artifact@v4
-      with:
-        name: TWRP-Recovery
-        path: ${{ env.OUTPUT_DIR }}/*.img
+- name: Upload Recovery ZIP
+  if: success() && env.CHECK_ZIP_IS_OK == 'true'
+  uses: actions/upload-artifact@v4
+  with:
+    name: TWRP-Recovery-ZIP
+    path: ${{ env.OUTPUT_DIR }}/*.zip
+
