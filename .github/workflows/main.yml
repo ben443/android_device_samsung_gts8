@@ -1,13 +1,13 @@
-name: Build TWRP Recovery
+	name: Build TWRP Recovery
 
-on:
+ on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
 	
-	jobs:
-	  build:
+ jobs:
+	build:
 	    name: Build TWRP Recovery with Provided Device Info
 	    runs-on: ubuntu-20.04
 	    steps:
@@ -78,3 +78,4 @@ on:
 	      with:
 	        name: TWRP-Recovery
 	        path: ${{ env.OUTPUT_DIR }}/*.img
+					
