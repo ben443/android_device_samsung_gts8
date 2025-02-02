@@ -1,2 +1,35 @@
-- name: TWRP Build Action
-  uses: mlm-games/TWRP-recovery-build-action@v1.1
+name: Build TWRP Recovery
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build TWRP Recovery with Provided Device Info
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set Swap Space (Optional)
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 16
+
+    - name: Build TWRP
+      uses: mlm-games/twrp-build-action@main
+      with:
+        MANIFEST_BRANCH: 'twrp-12.1'
+        DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
+        DEVICE_TREE_BRANCH: 'main'
+        DEVICE_NAME: 'gts8'
+        DEVICE_PATH: 'device/samsung/gts8'
+        MAKEFILE_NAME: ''
+        BUILD_TARGET: 'boot'
+
+    - name: Upload Recovery Image
+      uses: actions/upload-artifact@v3
+      with:
+        name: TWRP-Recovery
+        path: ${{ env.OUTPUT_DIR }}/*.img
