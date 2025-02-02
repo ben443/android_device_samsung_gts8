@@ -1,6 +1,6 @@
-	name: Build TWRP Recovery
+	name:  Build TWRP Recovery
 	
- On:
+ on:
     	 		    push:
 	        branches: [ main ]
 	  workflow_dispatch:
