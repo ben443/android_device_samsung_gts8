@@ -18,9 +18,10 @@ jobs:
   color: 'orange'
 inputs:
   swap-size-gb:  26
-    description: 'Swap space to create, in Gigabytes.' 
-    required: false
-    default: '10'
+description: 'Swap space to create, in Gigabytes.' 
+ 
+required: false
+default: '10'
 runs:
   using: "composite"
   steps:
