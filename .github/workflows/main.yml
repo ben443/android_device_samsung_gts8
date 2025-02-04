@@ -11,13 +11,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v4
-
-- name: Set Swap Space (Optional)
+- name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 16
-        
-            - name: Free Disk Space (Ubuntu)
+        swap-size-gb: 16  
+- name: Free Disk Space (Ubuntu)
   # You may pin to the exact commit or the version.
   # uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
   uses: jlumbroso/free-disk-space@v1.3.1
