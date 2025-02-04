@@ -1,81 +1,80 @@
-	name: Build TWRP Recovery
+name: Build TWRP Recovery
+ 
+on:
+push:
+branches: [ main ]
+workflow_dispatch:
 
- on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
 
-	
- jobs:
-	build:
-	    name: Build TWRP Recovery with Provided Device Info
-	    runs-on: ubuntu-20.04
-	    steps:
-	    - uses: actions/checkout@v4
-	    - name: 'Set Swap Space'
-	    description: 'Add moar swap'
-	    	 branding:
-	    icon: 'crop'
-	  color: 'orange'
-	  inputs:
-	  swap-size-gb:  26
-	  description: "Swap space to create, in Gigabytes" 
-	  required: false
-	  default: "10"
-	runs:
-	  using: "composite"
-	  steps:
-	    - name: Swap space report before modification
-	      shell: bash
-	      run: |
-	        echo "Memory and swap:"
-	        free -h
-	        echo
-	        swapon --show
-	        echo
-	    - name: Set Swap
-	      shell: bash
-	      run: |
-	          export SWAP_FILE=$(swapon --show=NAME | tail -n 1)
-	          echo "Swap file: $SWAP_FILE"
-	          if [ -z "$SWAP_FILE" ]; then
-	            SWAP_FILE=/swapfile
-	          else
-	            sudo swapoff $SWAP_FILE
-	            sudo rm $SWAP_FILE
-	          fi
-	          sudo fallocate -l ${{ inputs.swap-size-gb }}G $SWAP_FILE
-	          sudo chmod 600 $SWAP_FILE
-	          sudo mkswap $SWAP_FILE
-	          sudo swapon $SWAP_FILE
-	    - name: Swap space report after modification
-	      shell: bash
-	      run: |
-	        echo "Memory and swap:"
-	        free -h
-	        echo
-	        swapon --show
-	        echo
-	
-	    - name: Set Swap Space
-	      uses: pierotofy/set-swap-space@master
-	      with:
-	        swap-size-gb: 26
-	
-	    - name: Build TWRP
-	      uses: mlm-games/TWRP-recovery-build-action@v1.1
-	      with:
-	        MANIFEST_BRANCH: 'twrp-12.1'
-	        DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
-	        DEVICE_TREE_BRANCH: 'main'
-	        DEVICE_NAME: ''
-	        DEVICE_PATH: ''
-	        MAKEFILE_NAME: ''
-	        BUILD_TARGET: 'boot'
-	
-	    - name: Upload Recovery Image
-	      uses: actions/upload-artifact@v4
-	      with:
-	        name: TWRP-Recovery
-	        path: ${{ env.OUTPUT_DIR }}/*.img
-					
+jobs:
+build:
+- name: Build TWRP Recovery with Provided Device Info
+runs-on: ubuntu-20.04
+steps:
+- uses: actions/checkout@v4
+- name: 'Set Swap Space'
+description: 'Add moar swap'
+branding:
+icon: 'crop'
+color: 'orange'
+inputs:
+swap-size-gb:  26
+description: "Swap space to create, in Gigabytes" 
+required: false
+default: "10"
+runs:
+using: "composite"
+steps:
+- name: Swap space report before modification
+shell: bash
+run: |
+ echo "Memory and swap:"
+ free -h
+ echo
+ swapon --show
+ echo
+- name: Set Swap
+shell: bash
+run: |
+export SWAP_FILE=$(swapon --show=NAME | tail -n 1)
+echo "Swap file: $SWAP_FILE"
+if [ -z "$SWAP_FILE" ]; then
+SWAP_FILE=/swapfile
+else
+sudo swapoff $SWAP_FILE
+sudo rm $SWAP_FILE
+fi
+sudo fallocate -l ${{ inputs.swap-size-gb }}G $SWAP_FILE
+sudo chmod 600 $SWAP_FILE
+sudo mkswap $SWAP_FILE
+sudo swapon $SWAP_FILE
+- name: Swap space report after modification
+shell: bash
+run: |
+echo "Memory and swap:"
+free -h
+echo
+swapon --show
+echo
+
+- name: Set Swap Space
+uses: pierotofy/set-swap-space@master
+with:
+swap-size-gb: 26
+
+- name: Build TWRP
+uses: mlm-games/TWRP-recovery-build-action@v1.1
+with:
+MANIFEST_BRANCH: 'twrp-12.1'
+DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
+DEVICE_TREE_BRANCH: 'main'
+DEVICE_NAME: ''
+DEVICE_PATH: ''
+MAKEFILE_NAME: ''
+BUILD_TARGET: 'boot'
+
+- name: Upload Recovery Image
+uses: actions/upload-artifact@v4
+with:
+name: TWRP-Recovery
+path: ${{ env.OUTPUT_DIR }}/*.img
