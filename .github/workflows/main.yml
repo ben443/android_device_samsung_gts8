@@ -10,32 +10,25 @@ jobs:
     name: Build TWRP Recovery with Auto-Detection
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v4
-- name: Set Swap Space
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
         swap-size-gb: 16  
-- name: Free Disk Space (Ubuntu)
-  # You may pin to the exact commit or the version.
-  # uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
-  uses: jlumbroso/free-disk-space@v1.3.1
-  with:
-    # Remove Android runtime
-    android: true # optional, default is true
-    # Remove .NET runtime
-    dotnet: true # optional, default is true
-    # Remove Haskell runtime
-    haskell: true # optional, default is true
-    # Remove large packages
-    large-packages: true # optional, default is true
-    # Remove Docker images
-    docker-images: true # optional, default is true
-    # Remove image tool cache
-    tool-cache: false # optional, default is false
-    # Remove swap storage
-    swap-storage: true # optional, default is true
-          
-        
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@v1.3.1
+      with:
+        android: true 
+        dotnet: true 
+        haskell: true 
+        large-packages: true 
+        docker-images: true 
+        tool-cache: false 
+        swap-storage: true 
+
     - name: Build TWRP
       uses: mlm-games/TWRP-recovery-build-action@v1.1
       with:
@@ -46,6 +39,7 @@ jobs:
         DEVICE_PATH: ''
         MAKEFILE_NAME: ''
         BUILD_TARGET: boot
+
     - name: Upload Recovery Image
       uses: actions/upload-artifact@v4
       with:
