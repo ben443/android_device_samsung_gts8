@@ -1,14 +1,16 @@
 name: Build TWRP Recovery
-'on':
+
+on:
   push:
     branches:
       - main
-  workflow_dispatch: null
-  
+  workflow_dispatch:
+
 jobs:
   build:
     name: Build TWRP Recovery with Auto-Detection
     runs-on: ubuntu-20.04
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -28,6 +30,9 @@ jobs:
         docker-images: true 
         tool-cache: false 
         swap-storage: true 
+
+    - name: Setup Binary Ninja environment
+      uses: Vector35/setup-binary-ninja@v1-beta
 
     - name: Build TWRP
       uses: mlm-games/TWRP-recovery-build-action@v1.1
