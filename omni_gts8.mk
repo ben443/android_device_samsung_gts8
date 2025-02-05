@@ -11,15 +11,18 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product, vendor/twrp/config/common.mk)
+$(call inherit-product, vendor/omni/config/gsm.mk)
 
 # Inherit from gts8 device
 $(call inherit-product, device/samsung/gts8/device.mk)
 
+# Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := gts8
 PRODUCT_NAME := omni_gts8
 PRODUCT_BRAND := samsung
 PRODUCT_MODEL := SM-X706B
 PRODUCT_MANUFACTURER := samsung
+PRODUCT_RELEASE_NAME := samsung SM-X706B
 
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
 
