@@ -5,6 +5,4 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-add_lunch_combo omni_gts8-user
-add_lunch_combo omni_gts8-userdebug
-add_lunch_combo omni_gts8-eng
+COMMON_LUNCH_CHOICES := omni_gts8-eng omni_gts8-userdebug
