@@ -4,12 +4,18 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     name: Build TWRP Recovery with Auto-Detection
     runs-on: ubuntu-20.04
+    env:
+      DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
+      DEVICE_TREE_BRANCH: main
 
     steps:
     - name: Checkout Code
@@ -18,7 +24,7 @@ jobs:
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 16  
+        swap-size-gb: 16  # Setting swap space to 16GB
 
     - name: Free Disk Space (Ubuntu)
       uses: jlumbroso/free-disk-space@v1.3.1
@@ -35,8 +41,8 @@ jobs:
       uses: mlm-games/TWRP-recovery-build-action@v1.1
       with:
         MANIFEST_BRANCH: twrp-12.1
-        DEVICE_TREE: 'https://github.com/GrenJIkxd/android_device_samsung_gts8'
-        DEVICE_TREE_BRANCH: main
+        DEVICE_TREE: ${{ env.DEVICE_TREE }}
+        DEVICE_TREE_BRANCH: ${{ env.DEVICE_TREE_BRANCH }}
         DEVICE_NAME: ''
         DEVICE_PATH: ''
         MAKEFILE_NAME: ''
