@@ -40,7 +40,7 @@ jobs:
     - name: Build TWRP
       uses: mlm-games/TWRP-recovery-build-action@v1.1
       with:
-        MANIFEST_BRANCH: twrp-12.1
+        MANIFEST_BRANCH: twrp-14
         DEVICE_TREE: ${{ env.DEVICE_TREE }}
         DEVICE_TREE_BRANCH: ${{ env.DEVICE_TREE_BRANCH }}
         DEVICE_NAME: ''
