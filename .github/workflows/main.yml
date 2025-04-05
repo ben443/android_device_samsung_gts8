@@ -31,11 +31,6 @@ jobs:
         tool-cache: false 
         swap-storage: true 
 
-    - name: Setup Binary Ninja environment
-      uses: Vector35/setup-binary-ninja@v1-beta
-      env:
-        BINARY_NINJA_LICENSE: ${{ secrets.BINARY_NINJA_LICENSE }}  # Make sure to add your license key to GitHub Secrets
-
     - name: Build TWRP
       uses: mlm-games/TWRP-recovery-build-action@v1.1
       with:
