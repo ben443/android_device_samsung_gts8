@@ -59,7 +59,7 @@ jobs:
           make -j"$(nproc)" recoveryimage
 
       - name: Upload recovery image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: twrp_recoveryimage
           path: ~/twrp-build/out/target/product/gts8/recovery.img
