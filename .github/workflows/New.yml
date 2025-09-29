@@ -1,0 +1,65 @@
+name: Build TWRP Recovery
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-twrp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up workspace
+        run: |
+          mkdir -p ~/twrp-build
+          cd ~/twrp-build
+          echo $PWD > $GITHUB_WORKSPACE/BUILD_DIR.txt
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git repo bc build-essential libncurses5-dev \
+            libncursesw5-dev libssl-dev flex bison \
+            ccache liblz4-tool libxml2-utils \
+            python3 python3-pip
+
+      - name: Initialize repo for TWRP 12.1
+        run: |
+          cd ~/twrp-build
+          repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1
+
+      - name: Sync all upstream repos
+        run: |
+          cd ~/twrp-build
+          repo sync --no-clone-bundle
+
+      - name: Clone device tree
+        run: |
+          cd ~/twrp-build
+          mkdir -p device/samsung
+          git clone --depth 1 --branch main --single-branch https://github.com/ben443/android_device_samsung_gts8 device/samsung/gts8
+
+      - name: Allow missing dependencies
+        run: |
+          echo "export ALLOW_MISSING_DEPENDENCIES=true" >> $GITHUB_ENV
+
+      - name: Set up build environment
+        run: |
+          cd ~/twrp-build
+          source build/envsetup.sh
+
+      - name: Lunch target
+        run: |
+          cd ~/twrp-build
+          lunch twrp_gts8-eng
+
+      - name: Build recovery image
+        run: |
+          cd ~/twrp-build
+          make -j"$(nproc)" recoveryimage
+
+      - name: Upload recovery image
+        uses: actions/upload-artifact@v3
+        with:
+          name: twrp_recoveryimage
+          path: ~/twrp-build/out/target/product/gts8/recovery.img
